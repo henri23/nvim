@@ -1,0 +1,15 @@
+# Plugin state (regenerated on install)
+lazy-lock.json
+
+# Swap and backup files
+*.swp
+*.swo
+*~
+
+# Neovim generated
+.netrwhist
+shada/
+
+# OS files
+.DS_Store
+Thumbs.db
