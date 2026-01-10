@@ -15,12 +15,12 @@ A modular Neovim configuration with Lazy.nvim, LSP, Telescope, and a Doom Emacs-
 
 ### Linux / macOS
 ```bash
-git clone https://github.com/YOUR_USERNAME/nvim-config.git ~/.config/nvim
+git clone https://github.com/henri23/nvim.git ~/.config/nvim
 ```
 
 ### Windows (PowerShell)
 ```powershell
-git clone https://github.com/YOUR_USERNAME/nvim-config.git $env:LOCALAPPDATA\nvim
+git clone https://github.com/henri23/nvim.git $env:LOCALAPPDATA\nvim
 ```
 
 Launch Neovim and plugins will auto-install.
