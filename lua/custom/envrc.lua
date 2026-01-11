@@ -115,6 +115,13 @@ function M.run_application(opts)
 
   -- Get the application command as defined in .envrc (relative path)
   local app_cmd = env.APPLICATION
+  local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+
+  -- Handle batch files on Windows - wrap with cmd.exe /c
+  local final_cmd = app_cmd
+  if is_windows and (app_cmd:match("%.bat$") or app_cmd:match("%.cmd$")) then
+    final_cmd = 'cmd.exe /c "' .. app_path .. '"'
+  end
 
   vim.notify("Running: " .. app_cmd .. " (from: " .. launch_dir .. ")", vim.log.levels.INFO)
 
@@ -123,7 +130,7 @@ function M.run_application(opts)
 
   local run_term = Terminal:new({
     dir = launch_dir,
-    cmd = app_cmd,
+    cmd = final_cmd,
     direction = "float",
     close_on_exit = false,
     float_opts = {
