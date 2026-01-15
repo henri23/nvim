@@ -169,6 +169,14 @@ local cheatsheet_data = {
       { "<leader>fr", "Find and replace (Spectre)" },
     },
   },
+  {
+    name = "Line Numbers",
+    icon = "",
+    mappings = {
+      { "<leader>nn", "Toggle line numbers" },
+      { "<leader>nr", "Toggle relative numbers" },
+    },
+  },
 }
 
 -- State

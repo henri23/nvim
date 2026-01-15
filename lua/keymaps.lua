@@ -124,5 +124,9 @@ map("n", "<F8>", function()
 end, { desc = "Run post-build script" })
 
 -- Terminal (F10) - will be set in terminal plugin
+-- Line numbers toggle
+map("n", "<leader>nn", "<cmd>set number!<CR>", { desc = "Toggle line numbers" })
+map("n", "<leader>nr", "<cmd>set relativenumber!<CR>", { desc = "Toggle relative numbers" })
+
 -- Harpoon keymaps - will be set in navigation plugin
 -- Trouble keymaps - will be set in coding plugin
