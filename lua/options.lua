@@ -37,7 +37,7 @@ opt.smartcase = true
 opt.hlsearch = true
 
 -- Disable line wrapping
-opt.wrap = false
+opt.wrap = true
 
 -- Fill chars
 opt.fillchars = { eob = " " }
@@ -55,9 +55,11 @@ end
 
 -- Neovide settings
 if vim.g.neovide then
-	vim.o.guifont = "CaskaydiaMono Nerd Font:h13"
-	vim.g.neovide_opacity = 1
+	vim.o.guifont = "Liberation Mono:h14"
+	vim.g.neovide_opacity = 0.95
+	vim.g.neovide_normal_opacity = 0.95
 	vim.o.termguicolors = true
+
 end
 
 -- Disable some built-in providers

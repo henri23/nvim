@@ -170,6 +170,16 @@ local cheatsheet_data = {
     },
   },
   {
+    name = "Folding",
+    icon = "",
+    mappings = {
+      { "za", "Toggle fold under cursor" },
+      { "zR", "Open all folds" },
+      { "zM", "Close all folds" },
+      { "zK", "Peek folded lines" },
+    },
+  },
+  {
     name = "Line Numbers",
     icon = "",
     mappings = {

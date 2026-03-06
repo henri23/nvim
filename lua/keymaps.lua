@@ -128,5 +128,24 @@ end, { desc = "Run post-build script" })
 map("n", "<leader>nn", "<cmd>set number!<CR>", { desc = "Toggle line numbers" })
 map("n", "<leader>nr", "<cmd>set relativenumber!<CR>", { desc = "Toggle relative numbers" })
 
+-- Create file/folder relative to current buffer
+map("n", "<leader>cf", function()
+  local buf_dir = vim.fn.expand("%:p:h")
+  vim.ui.input({ prompt = "Create (relative to " .. buf_dir .. "): " }, function(input)
+    if not input or input == "" then
+      return
+    end
+    local target = buf_dir .. "/" .. input
+    if input:sub(-1) == "/" then
+      vim.fn.mkdir(target, "p")
+      vim.notify("Created directory: " .. target)
+    else
+      local dir = vim.fn.fnamemodify(target, ":h")
+      vim.fn.mkdir(dir, "p")
+      vim.cmd("edit " .. vim.fn.fnameescape(target))
+    end
+  end)
+end, { desc = "Create file/folder from buffer dir" })
+
 -- Harpoon keymaps - will be set in navigation plugin
 -- Trouble keymaps - will be set in coding plugin

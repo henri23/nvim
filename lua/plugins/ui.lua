@@ -6,7 +6,7 @@ return {
     event = "VeryLazy",
     opts = {
       options = {
-        theme = "tokyonight",
+        theme = "auto",
         globalstatus = true,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
@@ -175,7 +175,9 @@ return {
         { "<leader>f", group = "Find" },
         { "<leader>g", group = "Git" },
         { "<leader>h", group = "Hunk" },
+        { "<leader>o", group = "Opencode" },
         { "<leader>w", group = "Workspace" },
+        { "<leader>t", group = "Theme" },
         { "<leader>x", group = "Trouble" },
       })
     end,
