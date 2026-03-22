@@ -1,57 +1,56 @@
--- handmade-hero.nvim
--- Directly based on Casey Muratori's Handmade Hero emacs theme.
--- Near-black background, beige for almost everything,
--- gray comments, gold keywords, olive strings.
+-- strawberry.nvim
+-- Pinkish accent variant of the Handmade Hero theme.
+-- Near-black background, soft pink/rose tones replacing the gold/beige.
 
 local colors = {
-	-- Background: muted near-black (Casey's #161616)
+	-- Background: same muted near-black
 	background  = "#161616",
 	float_bg    = "#111111",
-	highlight   = "#191970",  -- midnight blue (Casey's cursor line)
-	selection   = "#264f78",
+	highlight   = "#2a1525",  -- dark plum cursor line
+	selection   = "#5c2d4a",
 	line_fg     = "#3a3a3a",
 	gutter      = "#161616",
 
-	-- Foreground: burlywood beige for almost everything
-	text        = "#cdaa7d",  -- burlywood3
-	light_text  = "#dab98f",  -- Casey's light-beige for builtins
+	-- Foreground: warm rose-beige for general text
+	text        = "#d4a0a0",  -- muted pink-beige
+	light_text  = "#e0b0b0",  -- lighter rose for builtins
 	white       = "#ffffff",
 
-	-- Comments: plain gray (Casey's gray50)
+	-- Comments: plain gray
 	comment     = "#7f7f7f",
 
-	-- Keywords: muted gold (Casey's DarkGoldenrod3)
-	keyword     = "#cd950c",
+	-- Keywords: hot pink / rose accent
+	keyword     = "#e06080",
 
-	-- Strings/constants: olive drab (Casey's exact color)
-	string      = "#6b8e23",
-	constant    = "#6b8e23",
-	number      = "#6b8e23",
+	-- Strings/constants: dusty mauve
+	string      = "#b07090",
+	constant    = "#b07090",
+	number      = "#c87898",
 
-	-- Everything else: same beige as text
-	variable    = "#cdaa7d",
-	function_   = "#cdaa7d",
-	type        = "#cdaa7d",
-	punctuation = "#cdaa7d",
-	macro       = "#dab98f",  -- builtins/macros get the lighter beige
+	-- Everything else: same rose-beige as text
+	variable    = "#d4a0a0",
+	function_   = "#d4a0a0",
+	type        = "#d4a0a0",
+	punctuation = "#d4a0a0",
+	macro       = "#e0b0b0",  -- builtins/macros get the lighter rose
 
-	-- Diagnostic/UI accent colors (kept muted)
+	-- Diagnostic/UI accent colors
 	error       = "#cc4444",
 	warning     = "#c4a000",
-	info        = "#5f8787",
-	hint        = "#5f8787",
+	info        = "#87596e",
+	hint        = "#87596e",
 
-	-- Cursor: Casey's bright green
-	cursor      = "#40ff40",
+	-- Cursor: bright pink
+	cursor      = "#ff69b4",
 
 	-- Statusline
-	lualine_fg  = "#cdaa7d",
-	lualine_bg  = "#232323",
+	lualine_fg  = "#161616",
+	lualine_bg  = "#d4a0a0",
 }
 
 vim.cmd("highlight clear")
 vim.o.background = "dark"
-vim.g.colors_name = "handmade-hero"
+vim.g.colors_name = "strawberry"
 
 local set = vim.api.nvim_set_hl
 
@@ -98,7 +97,7 @@ set(0, "MsgArea",           { fg = colors.text })
 set(0, "MoreMsg",           { fg = colors.comment })
 set(0, "Question",          { fg = colors.comment })
 
--- Syntax: beige for almost everything, minimal coloring
+-- Syntax: rose-pink tones, minimal coloring
 set(0, "Comment",           { fg = colors.comment, italic = true })
 set(0, "String",            { fg = colors.string })
 set(0, "Number",            { fg = colors.number })
@@ -118,7 +117,7 @@ set(0, "Error",             { fg = colors.error })
 set(0, "ErrorMsg",          { fg = colors.error })
 set(0, "Todo",              { fg = colors.keyword, bold = true })
 
--- Diagnostics (muted, not screaming)
+-- Diagnostics
 set(0, "DiagnosticError",   { fg = colors.error })
 set(0, "DiagnosticWarn",    { fg = colors.warning })
 set(0, "DiagnosticInfo",    { fg = colors.info })
@@ -128,18 +127,18 @@ set(0, "DiagnosticUnderlineWarn",  { sp = colors.warning, undercurl = true })
 set(0, "DiagnosticUnderlineInfo",  { sp = colors.info, undercurl = true })
 set(0, "DiagnosticUnderlineHint",  { sp = colors.hint, undercurl = true })
 
--- Git signs (subtle)
+-- Git signs
 set(0, "GitSignsAdd",       { fg = colors.string })
 set(0, "GitSignsChange",    { fg = colors.keyword })
 set(0, "GitSignsDelete",    { fg = colors.error })
 
 -- Diff
 set(0, "DiffAdd",           { bg = "#1a2a1a" })
-set(0, "DiffChange",        { bg = "#1a1a2a" })
+set(0, "DiffChange",        { bg = "#2a1a2a" })
 set(0, "DiffDelete",        { bg = "#2a1a1a" })
-set(0, "DiffText",          { bg = "#2a2a1a" })
+set(0, "DiffText",          { bg = "#2a1a25" })
 
--- Rainbow delimiters (kept for readability)
+-- Rainbow delimiters
 set(0, "rainbowcol1",       { fg = colors.keyword })
 set(0, "rainbowcol2",       { fg = colors.comment })
 set(0, "rainbowcol3",       { fg = colors.string })
@@ -151,7 +150,7 @@ set(0, "rainbowcol6",       { fg = colors.comment })
 set(0, "StatusLine",        { fg = colors.lualine_fg, bg = colors.lualine_bg })
 set(0, "StatusLineNC",      { fg = colors.line_fg, bg = colors.gutter })
 
--- Treesitter highlights: everything links to the beige-dominant base
+-- Treesitter highlights
 set(0, "@comment",          { link = "Comment" })
 set(0, "@string",           { link = "String" })
 set(0, "@number",           { link = "Number" })

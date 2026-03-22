@@ -5,16 +5,41 @@ return {
     cmd = { "Mason", "MasonInstall", "MasonUpdate" },
     opts = {
       ensure_installed = {
+        -- Lua
         "lua-language-server",
         "stylua",
+        -- C/C++
         "clangd",
         "clang-format",
+        -- CMake
         "cmake-language-server",
+        -- Rust
+        "rust-analyzer",
+        "rustfmt",
+        -- GLSL
         "glsl_analyzer",
+        -- TypeScript / JavaScript
+        "typescript-language-server",
+        "eslint-lsp",
+        -- Web
+        "tailwindcss-language-server",
+        "prettier",
+        -- C#
+        "csharpier",
+        -- JSON / YAML / Docker
+        "json-lsp",
+        "yaml-language-server",
+        "dockerfile-language-server",
+        "docker-compose-language-service",
       },
     },
     config = function(_, opts)
-      require("mason").setup()
+      require("mason").setup({
+        registries = {
+          "github:mason-org/mason-registry",
+          "github:Crashdummyy/mason-registry",
+        },
+      })
       -- Install ensure_installed packages
       local mr = require("mason-registry")
       mr.refresh(function()
@@ -145,8 +170,85 @@ return {
         capabilities = capabilities,
       }
 
+      -- Rust (used by rustaceanvim)
+      vim.lsp.config["rust-analyzer"] = {
+        capabilities = capabilities,
+      }
+
+      -- TypeScript / JavaScript
+      vim.lsp.config.ts_ls = {
+        cmd = { "typescript-language-server", "--stdio" },
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        root_markers = { "tsconfig.json", "package.json", ".git" },
+        capabilities = capabilities,
+      }
+
+      -- Tailwind CSS
+      vim.lsp.config.tailwindcss = {
+        cmd = { "tailwindcss-language-server", "--stdio" },
+        filetypes = { "typescriptreact", "javascriptreact", "html", "css" },
+        root_markers = { "tailwind.config.ts", "tailwind.config.js", ".git" },
+        capabilities = capabilities,
+      }
+
+      -- ESLint
+      vim.lsp.config.eslint = {
+        cmd = { "vscode-eslint-language-server", "--stdio" },
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        root_markers = { "eslint.config.js", ".eslintrc.json", ".eslintrc.js", ".git" },
+        capabilities = capabilities,
+      }
+
+      -- JSON
+      vim.lsp.config.jsonls = {
+        cmd = { "vscode-json-language-server", "--stdio" },
+        filetypes = { "json", "jsonc" },
+        root_markers = { ".git" },
+        capabilities = capabilities,
+      }
+
+      -- YAML
+      vim.lsp.config.yamlls = {
+        cmd = { "yaml-language-server", "--stdio" },
+        filetypes = { "yaml", "yml" },
+        root_markers = { ".git" },
+        capabilities = capabilities,
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "/docker-compose*.yml",
+            },
+          },
+        },
+      }
+
+      -- Dockerfile
+      vim.lsp.config.dockerls = {
+        cmd = { "docker-langserver", "--stdio" },
+        filetypes = { "dockerfile" },
+        root_markers = { "Dockerfile", ".git" },
+        capabilities = capabilities,
+      }
+
+      if vim.g.project_disable_lsp then
+        return
+      end
+
       -- Enable the LSP servers
-      vim.lsp.enable({ "lua_ls", "clangd", "glsl_analyzer", "ols", "cmake" })
+      vim.lsp.enable({
+        "lua_ls",
+        "clangd",
+        "glsl_analyzer",
+        "ols",
+        "cmake",
+        "ts_ls",
+        "tailwindcss",
+        "eslint",
+        "jsonls",
+        "yamlls",
+        "dockerls",
+      })
     end,
   },
 }

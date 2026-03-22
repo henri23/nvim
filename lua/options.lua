@@ -3,6 +3,7 @@ local opt = vim.opt
 local o = vim.o
 
 -- General
+opt.exrc = true -- Load project-local .nvim.lua files
 opt.mouse = "a"
 opt.clipboard = "unnamedplus"
 opt.undofile = true
@@ -55,11 +56,11 @@ end
 
 -- Neovide settings
 if vim.g.neovide then
-	vim.o.guifont = "Liberation Mono:h14"
+	-- vim.o.guifont = "Liberation Mono:h14"
+	vim.o.guifont = "CaskaydiaMono Nerd Font:h14"
 	vim.g.neovide_opacity = 0.95
 	vim.g.neovide_normal_opacity = 0.95
 	vim.o.termguicolors = true
-
 end
 
 -- Disable some built-in providers

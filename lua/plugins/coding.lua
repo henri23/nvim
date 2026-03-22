@@ -47,22 +47,13 @@ return {
   {
     "CRAG666/code_runner.nvim",
     event = "VeryLazy",
-    keys = {
-      {
-        "<F5>",
-        function()
-          -- Use custom envrc runner for C/C++ projects, otherwise use default
-          local ft = vim.bo.filetype
-          if vim.tbl_contains({ "cpp", "c", "h", "hpp", "cmake" }, ft) then
-            require("custom.envrc").run_application()
-          else
-            vim.cmd("RunCode")
-          end
-        end,
-        desc = "Run code",
-      },
-    },
     config = function()
+      -- Only set F5 if a project .nvim.lua hasn't already mapped it
+      local existing = vim.fn.maparg("<F5>", "n")
+      if existing == "" then
+        vim.keymap.set("n", "<F5>", "<cmd>RunCode<cr>", { desc = "Run code" })
+      end
+
       require("code_runner").setup({
         filetype = {
           python = "python3 -u $fileName",
@@ -115,10 +106,10 @@ return {
     "akinsho/toggleterm.nvim",
     version = "*",
     keys = {
-      { "<F10>", "<cmd>ToggleTerm direction=float<cr>", desc = "Toggle floating terminal" },
-      { "<F10>", "<cmd>ToggleTerm direction=float<cr>", mode = "t", desc = "Toggle floating terminal" },
-      { "<leader>h", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle horizontal terminal" },
-      { "<leader>v", "<cmd>ToggleTerm direction=vertical size=80<cr>", desc = "Toggle vertical terminal" },
+      { "<F10>", "<cmd>1ToggleTerm direction=float<cr>", desc = "Toggle floating terminal" },
+      { "<F10>", "<cmd>1ToggleTerm direction=float<cr>", mode = "t", desc = "Toggle floating terminal" },
+      { "<leader>h", "<cmd>2ToggleTerm direction=horizontal<cr>", desc = "Toggle horizontal terminal" },
+      { "<leader>v", "<cmd>3ToggleTerm direction=vertical size=80<cr>", desc = "Toggle vertical terminal" },
     },
     opts = {
       size = function(term)

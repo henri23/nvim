@@ -39,7 +39,9 @@ return {
     local luasnip = require("luasnip")
 
     -- Toggle completion flag
-    vim.g.cmp_enabled = true
+    if vim.g.cmp_enabled == nil then
+      vim.g.cmp_enabled = true
+    end
 
     -- Kind icons
     local kind_icons = {
@@ -128,6 +130,7 @@ return {
             buffer = "[Buffer]",
             path = "[Path]",
             nvim_lua = "[Lua]",
+            crates = "[Crate]",
           })[entry.source.name]
           return vim_item
         end,
@@ -136,6 +139,18 @@ return {
         max_view_entries = 10,
       },
     })
+
+    cmp.setup.filetype(
+      { "toml" },
+      {
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "path" },
+        }, {
+          { name = "buffer" },
+        }),
+      }
+    )
 
     -- Toggle completion keymap
     vim.keymap.set("n", "<leader>ta", function()

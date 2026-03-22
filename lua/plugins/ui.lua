@@ -22,7 +22,7 @@ return {
     },
   },
 
-  -- Alpha (Doom Emacs-style dashboard)
+  -- Alpha (dashboard)
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
@@ -31,60 +31,44 @@ return {
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
 
-      -- Doom Emacs logo (official ASCII art)
+      -- Neovim logo (ANSI Shadow)
       dashboard.section.header.val = {
-        [[=================     ===============     ===============   ========  ========]],
-        [[\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //]],
-        [[||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||]],
-        [[|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||]],
-        [[||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||]],
-        [[|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||]],
-        [[||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\_ . .|. .||]],
-        [[|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ `-_/| . ||]],
-        [[||_-' ||  .|/    || ||    \|.  || `-_|| ||_-' ||  .|/    || ||   | \  / |-_.||]],
-        [[||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \  / |  `||]],
-        [[||    `'         || ||         `'    || ||    `'         || ||   | \  / |   ||]],
-        [[||            .===' `===.         .==='.`===.         .===' /==. |  \/  |   ||]],
-        [[||         .=='   \_|-_ `===. .==='   _|_   `===. .===' _-|/   `==  \/  |   ||]],
-        [[||      .=='    _-'    `-_  `='    _-'   `-_    `='  _-'   `-_  /|  \/  |   ||]],
-        [[||   .=='    _-'          '-__\._-'         '-_./__-'         `' |. /|  |   ||]],
-        [[||.=='    _-'                                                     `' |  /==.||]],
-        [[=='    _-'                        N E O V I M                         \/   `==]],
-        [[\   _-'                                                                `-_   /]],
-        [[ `''                                                                      ``' ]],
+        [[                                                    ]],
+        [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+        [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+        [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+        [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+        [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+        [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+        [[                                                    ]],
       }
 
-      -- Buttons with icons
+      -- Buttons
       dashboard.section.buttons.val = {
         dashboard.button("SPC f f", "󰈞  Find File", ":Telescope find_files<CR>"),
         dashboard.button("SPC f w", "󰊄  Find Word", ":Telescope live_grep<CR>"),
         dashboard.button("SPC f o", "󰷊  Recent Files", ":Telescope oldfiles<CR>"),
         dashboard.button("SPC e e", "󰙅  File Explorer", ":NvimTreeToggle<CR>"),
         dashboard.button("SPC l g", "󰊢  Git", ":LazyGit<CR>"),
-        dashboard.button("SPC c h", "󰋖  Cheatsheet", ":lua require('custom.cheatsheet').toggle()<CR>"),
-        dashboard.button("e", "󰎔  New File", ":ene <BAR> startinsert<CR>"),
-        dashboard.button("c", "󰒓  Config", ":e $MYVIMRC<CR>"),
-        dashboard.button("l", "󰒲  Lazy", ":Lazy<CR>"),
-        dashboard.button("q", "󰩈  Quit", ":qa<CR>"),
       }
 
       -- Footer
       dashboard.section.footer.val = function()
         local stats = require("lazy").stats()
         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        return "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms"
+        return "Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms"
       end
 
-      -- Centering
-      dashboard.section.header.opts.hl = "DoomHeader"
+      -- Highlights
+      dashboard.section.header.opts.hl = "AlphaHeader"
       dashboard.section.header.opts.position = "center"
-      dashboard.section.buttons.opts.hl = "DoomButton"
-      dashboard.section.footer.opts.hl = "DoomFooter"
+      dashboard.section.buttons.opts.hl = "AlphaButton"
+      dashboard.section.footer.opts.hl = "AlphaFooter"
 
       -- Dynamic vertical centering
       local function get_padding()
-        local header_lines = 19
-        local button_lines = 10
+        local header_lines = 8
+        local button_lines = 5
         local footer_lines = 1
         local total_content = header_lines + button_lines + footer_lines + 4
         local win_height = vim.fn.winheight(0)
@@ -104,10 +88,9 @@ return {
       dashboard.config.opts.noautocmd = true
       alpha.setup(dashboard.config)
 
-      -- Doom color scheme
-      vim.api.nvim_set_hl(0, "DoomHeader", { fg = "#51afef", bold = true })
-      vim.api.nvim_set_hl(0, "DoomButton", { fg = "#bbc2cf" })
-      vim.api.nvim_set_hl(0, "DoomFooter", { fg = "#5B6268", italic = true })
+      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#cdaa7d", bold = true })
+      vim.api.nvim_set_hl(0, "AlphaButton", { fg = "#cdaa7d" })
+      vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#7f7f7f", italic = true })
     end,
   },
 
@@ -198,5 +181,21 @@ return {
   {
     "nvim-tree/nvim-web-devicons",
     lazy = true,
+  },
+
+  -- Image rendering in Neovim
+  {
+    "3rd/image.nvim",
+    event = "VeryLazy",
+    opts = {
+      backend = "kitty",
+      integrations = {
+        markdown = { enabled = true },
+      },
+      max_width = 100,
+      max_height = 50,
+      max_height_window_percentage = 50,
+      max_width_window_percentage = 70,
+    },
   },
 }

@@ -28,6 +28,14 @@ return {
 						colorscheme = "handmade-hero",
 					},
 					{
+						name = "Strawberry",
+						colorscheme = "strawberry",
+					},
+					{
+						name = "Caelestia (dynamic)",
+						colorscheme = "caelestia",
+					},
+					{
 						name = "Tokyo Night",
 						colorscheme = "tokyonight-night",
 						before = [[
@@ -60,6 +68,8 @@ return {
 					vim.cmd("hi clear")
 					package.loaded["colors.naysayer"] = nil
 					package.loaded["colors.handmade-hero"] = nil
+					package.loaded["colors.strawberry"] = nil
+					package.loaded["colors.caelestia"] = nil
 				]],
 			})
 		end,

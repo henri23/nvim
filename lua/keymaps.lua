@@ -113,17 +113,8 @@ map("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", { desc = "Navigate right" })
 map("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", { desc = "Navigate down" })
 map("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", { desc = "Navigate up" })
 
--- Build system (F7) - uses envrc helper, requires BUILD_SCRIPT in .envrc
-map("n", "<F7>", function()
-  require("custom.envrc").run_script("BUILD_SCRIPT", "build")
-end, { desc = "Build project" })
-
--- Post-build (F8) - uses envrc helper, requires POST_BUILD_SCRIPT in .envrc
-map("n", "<F8>", function()
-  require("custom.envrc").run_script("POST_BUILD_SCRIPT", "post-build")
-end, { desc = "Run post-build script" })
-
 -- Terminal (F10) - will be set in terminal plugin
+-- Build keymaps (F5/F7/F8) are project-specific, defined in .nvim.lua files
 -- Line numbers toggle
 map("n", "<leader>nn", "<cmd>set number!<CR>", { desc = "Toggle line numbers" })
 map("n", "<leader>nr", "<cmd>set relativenumber!<CR>", { desc = "Toggle relative numbers" })

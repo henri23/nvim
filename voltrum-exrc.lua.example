@@ -1,0 +1,56 @@
+-- Voltrum Core project-local Neovim config
+-- Requires: vim.opt.exrc = true in your options.lua
+--
+-- F7  = Build (cmake + ninja)
+-- F8  = Post-build (compile shaders)
+-- F5  = Run application (voltrum_client)
+
+local cwd = vim.fn.getcwd()
+
+-- Helper: create and cache a toggleterm terminal on first use.
+-- This avoids requiring toggleterm at file-load time (it is lazy-loaded).
+local terms = {}
+local function get_or_create(name, opts)
+    if terms[name] then
+        return terms[name]
+    end
+    local Terminal = require("toggleterm.terminal").Terminal
+    terms[name] = Terminal:new(opts)
+    return terms[name]
+end
+
+-- ============================================================
+-- F7 – Build project (build.sh)
+-- ============================================================
+vim.keymap.set("n", "<F7>", function()
+    get_or_create("build", {
+        cmd = "bash build.sh",
+        dir = cwd,
+        direction = "horizontal",
+        close_on_exit = false,
+    }):toggle()
+end, { desc = "Build voltrum (build.sh)" })
+
+-- ============================================================
+-- F8 – Post-build / compile shaders (post-build.sh)
+-- ============================================================
+vim.keymap.set("n", "<F8>", function()
+    get_or_create("postbuild", {
+        cmd = "bash post-build.sh",
+        dir = cwd,
+        direction = "horizontal",
+        close_on_exit = false,
+    }):toggle()
+end, { desc = "Compile shaders (post-build.sh)" })
+
+-- ============================================================
+-- F5 – Run application (voltrum_client from bin/)
+-- ============================================================
+vim.keymap.set("n", "<F5>", function()
+    get_or_create("run", {
+        cmd = "./client/voltrum_client",
+        dir = cwd .. "/bin",
+        direction = "horizontal",
+        close_on_exit = false,
+    }):toggle()
+end, { desc = "Run voltrum_client" })
