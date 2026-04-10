@@ -12,7 +12,7 @@ return {
         "clangd",
         "clang-format",
         -- CMake
-        "cmake-language-server",
+        "neocmakelsp",
         -- Rust
         "rust-analyzer",
         "rustfmt",
@@ -21,11 +21,16 @@ return {
         -- TypeScript / JavaScript
         "typescript-language-server",
         "eslint-lsp",
+        -- Astro
+        "astro-language-server",
         -- Web
         "tailwindcss-language-server",
         "prettier",
         -- C#
         "csharpier",
+        -- Python
+        "pyright",
+        "ruff",
         -- JSON / YAML / Docker
         "json-lsp",
         "yaml-language-server",
@@ -163,8 +168,8 @@ return {
       }
 
       -- CMake
-      vim.lsp.config.cmake = {
-        cmd = { "cmake-language-server" },
+      vim.lsp.config.neocmakelsp = {
+        cmd = { "neocmakelsp", "stdio" },
         filetypes = { "cmake" },
         root_markers = { "CMakeLists.txt", "cmake", ".git" },
         capabilities = capabilities,
@@ -183,10 +188,28 @@ return {
         capabilities = capabilities,
       }
 
+      -- Astro
+      vim.lsp.config.astro = {
+        cmd = { "astro-ls", "--stdio" },
+        filetypes = { "astro" },
+        root_markers = { "astro.config.mjs", "astro.config.ts", "package.json", ".git" },
+        init_options = {
+          typescript = {
+            tsdk = vim.fs.joinpath(
+              vim.fn.getcwd(),
+              "node_modules",
+              "typescript",
+              "lib"
+            ),
+          },
+        },
+        capabilities = capabilities,
+      }
+
       -- Tailwind CSS
       vim.lsp.config.tailwindcss = {
         cmd = { "tailwindcss-language-server", "--stdio" },
-        filetypes = { "typescriptreact", "javascriptreact", "html", "css" },
+        filetypes = { "typescriptreact", "javascriptreact", "html", "css", "astro" },
         root_markers = { "tailwind.config.ts", "tailwind.config.js", ".git" },
         capabilities = capabilities,
       }
@@ -194,7 +217,7 @@ return {
       -- ESLint
       vim.lsp.config.eslint = {
         cmd = { "vscode-eslint-language-server", "--stdio" },
-        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "astro" },
         root_markers = { "eslint.config.js", ".eslintrc.json", ".eslintrc.js", ".git" },
         capabilities = capabilities,
       }
@@ -223,6 +246,31 @@ return {
         },
       }
 
+      -- Python (Pyright)
+      vim.lsp.config.pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "pyrightconfig.json", ".git" },
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+        capabilities = capabilities,
+      }
+
+      -- Ruff (Python linter/formatter)
+      vim.lsp.config.ruff = {
+        cmd = { "ruff", "server" },
+        filetypes = { "python" },
+        root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
+        capabilities = capabilities,
+      }
+
       -- Dockerfile
       vim.lsp.config.dockerls = {
         cmd = { "docker-langserver", "--stdio" },
@@ -241,12 +289,15 @@ return {
         "clangd",
         "glsl_analyzer",
         "ols",
-        "cmake",
+        "neocmakelsp",
         "ts_ls",
+        "astro",
         "tailwindcss",
         "eslint",
         "jsonls",
         "yamlls",
+        "pyright",
+        "ruff",
         "dockerls",
       })
     end,

@@ -32,6 +32,7 @@ return {
       json = { "prettier" },
       css = { "prettier" },
       html = { "prettier" },
+      astro = { "prettier" },
       yaml = { "prettier" },
       markdown = { "prettier" },
       -- C#

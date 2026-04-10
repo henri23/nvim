@@ -166,6 +166,13 @@ return {
     end,
   },
 
+  -- Dropbar (breadcrumb navigation)
+  {
+    "Bekaboo/dropbar.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
+  },
+
   -- Indent blankline
   {
     "lukas-reineke/indent-blankline.nvim",
