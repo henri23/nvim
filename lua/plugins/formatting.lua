@@ -37,6 +37,13 @@ return {
       markdown = { "prettier" },
       -- C#
       cs = { "csharpier" },
+      -- OCaml
+      ocaml = { "ocamlformat" },
+      -- Verilog / SystemVerilog (Verible)
+      verilog = { "verible_verilog_format" },
+      systemverilog = { "verible_verilog_format" },
+      -- VHDL
+      vhdl = { "hdlfmtr" },
     },
     format_on_save = {
       timeout_ms = 500,

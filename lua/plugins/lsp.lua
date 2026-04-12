@@ -27,15 +27,30 @@ return {
         "tailwindcss-language-server",
         "prettier",
         -- C#
+        "roslyn",
         "csharpier",
         -- Python
-        "pyright",
+        "python-lsp-server",
         "ruff",
         -- JSON / YAML / Docker
         "json-lsp",
         "yaml-language-server",
         "dockerfile-language-server",
         "docker-compose-language-service",
+        -- OCaml
+        -- NOTE: ocaml-lsp intentionally NOT managed by Mason.
+        -- Mason ships a prebuilt ocamllsp binary tied to a specific OCaml
+        -- compiler version; if the opam switch later downgrades (e.g. hardcaml
+        -- pinning forced 5.4.1 -> 5.3.0), Mason's stale binary reports
+        -- "Compiler version mismatch" on every cmi from the switch.
+        -- We launch ocamllsp via `opam exec` instead (see ocamllsp config below)
+        -- so the LSP binary always matches the active opam switch.
+        "ocamlformat",
+        -- VHDL (rust_hdl provides the vhdl_ls binary; vsg = formatter)
+        "rust_hdl",
+        "vhdl-style-guide",
+        -- Verilog / SystemVerilog (verible provides both ls and format)
+        "verible",
       },
     },
     config = function(_, opts)
@@ -246,20 +261,11 @@ return {
         },
       }
 
-      -- Python (Pyright)
-      vim.lsp.config.pyright = {
-        cmd = { "pyright-langserver", "--stdio" },
+      -- Python (pylsp / Jedi)
+      vim.lsp.config.pylsp = {
+        cmd = { "pylsp" },
         filetypes = { "python" },
-        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "pyrightconfig.json", ".git" },
-        settings = {
-          python = {
-            analysis = {
-              typeCheckingMode = "basic",
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-            },
-          },
-        },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
         capabilities = capabilities,
       }
 
@@ -276,6 +282,49 @@ return {
         cmd = { "docker-langserver", "--stdio" },
         filetypes = { "dockerfile" },
         root_markers = { "Dockerfile", ".git" },
+        capabilities = capabilities,
+      }
+
+      -- OCaml (ocaml-lsp-server)
+      -- Launched via `opam exec` so the ocamllsp binary ALWAYS comes from the
+      -- active opam switch and cannot be shadowed by a stale Mason-managed
+      -- prebuilt. This prevents the "Compiler version mismatch" error that
+      -- happens when Mason's bundled ocamllsp targets a different OCaml
+      -- compiler version than the one currently installed in opam.
+      vim.lsp.config.ocamllsp = {
+        cmd = { "opam", "exec", "--", "ocamllsp" },
+        filetypes = {
+          "ocaml",
+          "ocaml.menhir",
+          "ocaml.interface",
+          "ocaml.ocamllex",
+          "reason",
+          "dune",
+        },
+        root_markers = {
+          "*.opam",
+          "esy.json",
+          "package.json",
+          "dune-project",
+          "dune-workspace",
+          ".git",
+        },
+        capabilities = capabilities,
+      }
+
+      -- VHDL (rust_hdl / vhdl_ls) - also handles formatting
+      vim.lsp.config.vhdl_ls = {
+        cmd = { "vhdl_ls" },
+        filetypes = { "vhdl" },
+        root_markers = { "vhdl_ls.toml", ".git" },
+        capabilities = capabilities,
+      }
+
+      -- Verilog / SystemVerilog (Verible)
+      vim.lsp.config.verible = {
+        cmd = { "verible-verilog-ls", "--rules_config_search" },
+        filetypes = { "verilog", "systemverilog" },
+        root_markers = { ".rules.verible_lint", ".git" },
         capabilities = capabilities,
       }
 
@@ -296,9 +345,12 @@ return {
         "eslint",
         "jsonls",
         "yamlls",
-        "pyright",
+        "pylsp",
         "ruff",
         "dockerls",
+        "ocamllsp",
+        "vhdl_ls",
+        "verible",
       })
     end,
   },

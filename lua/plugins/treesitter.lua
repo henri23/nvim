@@ -1,10 +1,12 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "main",
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    -- New nvim-treesitter (main branch) only handles parser installation
+    -- nvim-treesitter main branch only handles parser installation.
     -- Highlighting is handled by Neovim 0.11+ core via vim.treesitter.start()
+    -- (see lua/autocmds.lua for the FileType autocmd that calls it).
     local ensure_installed = {
       "astro",
       "c",
@@ -30,11 +32,18 @@ return {
       "markdown_inline",
       "c_sharp",
       "odin",
+      "ocaml",
+      "ocaml_interface",
+      "systemverilog",
+      "vhdl",
     }
 
+    local nts = require("nvim-treesitter")
+    nts.setup()
+
     local installed = {}
-    for _, parser in ipairs(vim.api.nvim_get_runtime_file("parser/*.so", true)) do
-      installed[vim.fn.fnamemodify(parser, ":t:r")] = true
+    for _, lang in ipairs(nts.get_installed()) do
+      installed[lang] = true
     end
 
     local missing = {}
@@ -45,7 +54,7 @@ return {
     end
 
     if #missing > 0 then
-      vim.cmd("TSInstall " .. table.concat(missing, " "))
+      nts.install(missing)
     end
   end,
 }
